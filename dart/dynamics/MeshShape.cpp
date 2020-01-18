@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011-2018, The DART development contributors
+ * Copyright (c) 2011-2019, The DART development contributors
  * All rights reserved.
  *
  * The list of contributors can be found at:
@@ -136,6 +136,7 @@ MeshShape::MeshShape(
   : Shape(MESH),
     mDisplayList(0),
     mColorMode(MATERIAL_COLOR),
+    mAlphaMode(BLEND),
     mColorIndex(0)
 {
   setMesh(mesh, path, std::move(resourceRetriever));
@@ -186,17 +187,6 @@ void MeshShape::update()
 }
 
 //==============================================================================
-void MeshShape::notifyAlphaUpdated(double alpha)
-{
-  for(std::size_t i=0; i<mMesh->mNumMeshes; ++i)
-  {
-    aiMesh* mesh = mMesh->mMeshes[i];
-    for(std::size_t j=0; j<mesh->mNumVertices; ++j)
-      mesh->mColors[0][j][3] = alpha;
-  }
-}
-
-//==============================================================================
 const std::string& MeshShape::getMeshPath() const
 {
   return mMeshPath;
@@ -240,6 +230,8 @@ void MeshShape::setMesh(
     mMeshPath.clear();
 
   mResourceRetriever = std::move(resourceRetriever);
+
+  incrementVersion();
 }
 
 //==============================================================================
@@ -250,6 +242,8 @@ void MeshShape::setScale(const Eigen::Vector3d& scale)
   mScale = scale;
   mIsBoundingBoxDirty = true;
   mIsVolumeDirty = true;
+
+  incrementVersion();
 }
 
 //==============================================================================
@@ -268,6 +262,18 @@ void MeshShape::setColorMode(ColorMode mode)
 MeshShape::ColorMode MeshShape::getColorMode() const
 {
   return mColorMode;
+}
+
+//==============================================================================
+void MeshShape::setAlphaMode(MeshShape::AlphaMode mode)
+{
+  mAlphaMode = mode;
+}
+
+//==============================================================================
+MeshShape::AlphaMode MeshShape::getAlphaMode() const
+{
+  return mAlphaMode;
 }
 
 //==============================================================================

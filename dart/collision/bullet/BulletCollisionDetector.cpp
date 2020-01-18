@@ -946,7 +946,7 @@ createBulletCollisionShapeFromHeightmap(
     const HeightmapShapeT* heightMap)
 {
   // get the heightmap parameters
-  const Eigen::Vector3d& scale = heightMap->getScale();
+  const Eigen::Vector3d scale;
   const auto minHeight = heightMap->getMinHeight();
   const auto maxHeight = heightMap->getMaxHeight();
 

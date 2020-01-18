@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011-2018, The DART development contributors
+ * Copyright (c) 2011-2019, The DART development contributors
  * All rights reserved.
  *
  * The list of contributors can be found at:
@@ -142,6 +142,9 @@ public:
 
   // Documentation inherited.
   Eigen::Matrix3d computeInertia(double mass) const override;
+
+  // Documentation inherited.
+  void notifyColorUpdated(const Eigen::Vector4d& color) override;
 
 protected:
   // Documentation inherited.
